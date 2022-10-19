@@ -255,7 +255,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 24),
                 child: FFButtonWidget(
                   onPressed: () async {
-                    await Share.share('Hiii');
+                    await Share.share('Hiii krunal');
                   },
                   text: 'Register',
                   options: FFButtonOptions(
