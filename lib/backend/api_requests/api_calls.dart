@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../flutter_flow/flutter_flow_util.dart';
 
 import 'api_manager.dart';
@@ -6,9 +8,9 @@ export 'api_manager.dart' show ApiCallResponse;
 
 const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
-/// Start Post Group Code
+/// Start Blogs Group Code
 
-class PostGroup {
+class BlogsGroup {
   static String baseUrl = 'https://jsonplaceholder.typicode.com';
   static Map<String, String> headers = {};
   static FetchPostCall fetchPostCall = FetchPostCall();
@@ -19,10 +21,10 @@ class FetchPostCall {
   Future<ApiCallResponse> call() {
     return ApiManager.instance.makeApiCall(
       callName: 'Fetch Post',
-      apiUrl: '${PostGroup.baseUrl}/posts',
+      apiUrl: '${BlogsGroup.baseUrl}/posts',
       callType: ApiCallType.GET,
       headers: {
-        ...PostGroup.headers,
+        ...BlogsGroup.headers,
       },
       params: {},
       returnBody: true,
@@ -36,10 +38,10 @@ class FetchCommentsCall {
   }) {
     return ApiManager.instance.makeApiCall(
       callName: 'Fetch comments',
-      apiUrl: '${PostGroup.baseUrl}/posts/${postId}/comments',
+      apiUrl: '${BlogsGroup.baseUrl}/posts/${postId}/comments',
       callType: ApiCallType.GET,
       headers: {
-        ...PostGroup.headers,
+        ...BlogsGroup.headers,
       },
       params: {},
       returnBody: true,
@@ -47,7 +49,7 @@ class FetchCommentsCall {
   }
 }
 
-/// End Post Group Code
+/// End Blogs Group Code
 
 class ReferAFriendCall {
   static Future<ApiCallResponse> call() {
@@ -87,4 +89,13 @@ class ApiPagingParams {
   @override
   String toString() =>
       'PagingParams(nextPageNumber: $nextPageNumber, numItems: $numItems, lastResponse: $lastResponse,)';
+}
+
+String _serializeList(List? list) {
+  list ??= <String>[];
+  try {
+    return json.encode(list);
+  } catch (_) {
+    return '[]';
+  }
 }

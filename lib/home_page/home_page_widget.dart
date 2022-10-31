@@ -23,7 +23,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     super.initState();
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      pOSTApiAction = await PostGroup.fetchPostCall.call();
+      pOSTApiAction = await BlogsGroup.fetchPostCall.call();
       if ((pOSTApiAction?.succeeded ?? true)) {
         setState(
             () => FFAppState().Post = (pOSTApiAction?.jsonBody ?? '').toList());
@@ -42,6 +42,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         );
       }
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -88,15 +90,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               children: [
                 Builder(
                   builder: (context) {
-                    final postDaya = FFAppState().Post.toList();
+                    final postData = FFAppState().Post.toList();
                     return ListView.builder(
                       padding: EdgeInsets.zero,
                       primary: false,
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
-                      itemCount: postDaya.length,
-                      itemBuilder: (context, postDayaIndex) {
-                        final postDayaItem = postDaya[postDayaIndex];
+                      itemCount: postData.length,
+                      itemBuilder: (context, postDataIndex) {
+                        final postDataItem = postData[postDataIndex];
                         return Padding(
                           padding:
                               EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
@@ -115,21 +117,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             ),
                             child: InkWell(
                               onTap: () async {
-                                if (postDayaIndex ==
+                                if (postDataIndex ==
                                     FFAppState().expandedpost) {
                                   setState(
                                       () => FFAppState().expandedpost = -1);
                                 } else {
                                   fetchComAPI =
-                                      await PostGroup.fetchCommentsCall.call(
+                                      await BlogsGroup.fetchCommentsCall.call(
                                     postId: getJsonField(
-                                      postDayaItem,
+                                      postDataItem,
                                       r'''$.id''',
                                     ).toString(),
                                   );
                                   if ((fetchComAPI?.succeeded ?? true)) {
                                     setState(() => FFAppState().expandedpost =
-                                        postDayaIndex);
+                                        postDataIndex);
                                   } else {
                                     setState(
                                         () => FFAppState().expandedpost = -1);
@@ -165,7 +167,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                         children: [
                                           Text(
                                             getJsonField(
-                                              postDayaItem,
+                                              postDataItem,
                                               r'''$.title''',
                                             ).toString().maybeHandleOverflow(
                                                   maxChars: 20,
@@ -188,7 +190,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     0, 4, 0, 0),
                                             child: Text(
                                               getJsonField(
-                                                postDayaItem,
+                                                postDataItem,
                                                 r'''$.body''',
                                               ).toString(),
                                               style: FlutterFlowTheme.of(
@@ -204,7 +206,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   ),
                                             ),
                                           ),
-                                          if (postDayaIndex ==
+                                          if (postDataIndex ==
                                               FFAppState().expandedpost)
                                             Padding(
                                               padding: EdgeInsetsDirectional
@@ -249,7 +251,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                           child: Visibility(
                                                             visible: FFAppState()
                                                                     .expandedpost ==
-                                                                postDayaIndex,
+                                                                postDataIndex,
                                                             child: Builder(
                                                               builder:
                                                                   (context) {

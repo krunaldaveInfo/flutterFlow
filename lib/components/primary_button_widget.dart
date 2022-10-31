@@ -13,6 +13,13 @@ class PrimaryButtonWidget extends StatefulWidget {
 
 class _PrimaryButtonWidgetState extends State<PrimaryButtonWidget> {
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 16),
